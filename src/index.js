@@ -68,13 +68,25 @@ export function addStoreState(
 }
 
 /**
- * //TODO
+ * Create a higher-order Componet that will add that dispatch function of the dispatcher (added with
+ * 'useDispatcher') to the props of the given Componet.
+ *
+ * @param Componet			The Componet to add the dispatch function to
+ *
+ * @return					The Componet with the dispatch function
  */
 export function addDispatch(Componet: ReactClass<any, any, any>): ReactClass<any, any, any> {
 	const AddDispatch = React.createClass({
+		contextTypes: {
+			dispatcher: React.PropTypes.object.isRequired
+		},
 		render(): ReactElement {
-			//TODO
-			return <Componet {...this.props} />;
+			return (
+				<Componet
+					dispatch={(action) => this.context.dispatcher.dispatch(action)}
+					{...this.props}
+				/>
+			);
 		}
 	});
 
