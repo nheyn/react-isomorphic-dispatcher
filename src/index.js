@@ -7,18 +7,18 @@ type DispatcherStates = {[key: string]: DispatcherState};
 type DispacherAction = any;
 
 /*------------------------------------------------------------------------------------------------*/
-//	--- Use Dispatcher Higher-Order Componet ---
+//	--- Use Dispatcher Higher-Order Component ---
 /*------------------------------------------------------------------------------------------------*/
 /**
- * Create a higher-order Componet that puts a dispatcher in the context.
+ * Create a higher-order Component that puts a dispatcher in the context.
  *
- * @param Componet		The Componet to start adding the dispatcher to the context at
+ * @param Component		The Component to start adding the dispatcher to the context at
  * @param dispatcher	The dispatcher to add to the context
  *
- * @return				The new Componet
+ * @return				The new Component
  */
 export function useDispatcher(
-	Componet:	ReactClass<any, any, any>,
+	Component:	ReactClass<any, any, any>,
 	dispatcher:	Dispatcher
 ):				ReactClass<any, any, any> {
 	const UseDispatcher = React.createClass({
@@ -29,7 +29,7 @@ export function useDispatcher(
 			return { dispatcher };
 		},
 		render(): ReactElement {
-			return <Componet {...this.props} />;
+			return <Component {...this.props} />;
 		}
 	});
 
@@ -37,18 +37,18 @@ export function useDispatcher(
 }
 
 /**
- * Create a higher-order Componet that will add that state of the dispatcher (added with
- * 'useDispatcher') to the props of the given Componet.
+ * Create a higher-order Component that will add that state of the dispatcher (added with
+ * 'useDispatcher') to the props of the given Component.
  *
- * @param Componet			The Componet to add the states to
+ * @param Component			The Component to add the states to
  * @param [storeNames]		The names of the stores to get the state of
  * @param [storesToProps]	A function that takes the states and returns the props to add
- * @param [loadActions]		Actions to dispatch when the componet is mounted
+ * @param [loadActions]		Actions to dispatch when the Component is mounted
  *
- * @return					The Componet with the states added
+ * @return					The Component with the states added
  */
 export function addStoreState(
-	Componet:		ReactClass<any, any, any>,
+	Component:		ReactClass<any, any, any>,
 	storeNames?:	?Array<string>,
 	storesToProps?:	?(states: DispatcherStates) => any,
 	loadActions?:	Array<DispacherAction>
@@ -103,7 +103,7 @@ export function addStoreState(
 			this.setState({ unsubscribe: null })
 		},
 		render(): ReactElement {
-			return <Componet {...this.state.storeStates} {...this.props} />;
+			return <Component {...this.state.storeStates} {...this.props} />;
 		},
 		getStoreStates(currStoreStates: any = {}): any {
 			//Get states from the correct stores
@@ -129,21 +129,21 @@ export function addStoreState(
 }
 
 /**
- * Create a higher-order Componet that will add that dispatch function of the dispatcher (added with
- * 'useDispatcher') to the props of the given Componet.
+ * Create a higher-order Component that will add that dispatch function of the dispatcher (added with
+ * 'useDispatcher') to the props of the given Component.
  *
- * @param Componet			The Componet to add the dispatch function to
+ * @param Component			The Component to add the dispatch function to
  *
- * @return					The Componet with the dispatch function
+ * @return					The Component with the dispatch function
  */
-export function addDispatch(Componet: ReactClass<any, any, any>): ReactClass<any, any, any> {
+export function addDispatch(Component: ReactClass<any, any, any>): ReactClass<any, any, any> {
 	const AddDispatch = React.createClass({
 		contextTypes: {
 			dispatcher: React.PropTypes.object.isRequired
 		},
 		render(): ReactElement {
 			return (
-				<Componet
+				<Component
 					dispatch={(action) => this.context.dispatcher.dispatch(action)}
 					{...this.props}
 				/>
