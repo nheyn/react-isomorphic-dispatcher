@@ -106,9 +106,18 @@ export function addStoreState(
 			return <Componet {...this.state.storeStates} {...this.props} />;
 		},
 		getStoreStates(currStoreStates: any = {}): any {
-			//TODO, set up for selected stores
-			const states = this.context.dispatcher.getStatesForAll();
+			//Get states from the correct stores
+			let states = {};
+			if(storeNames) {
+				storeNames.forEach((storeName) => {
+					states[storeName] = this.context.dispatcher.getStatesFor(storeName);
+				});
+			}
+			else {
+				states = this.context.dispatcher.getStatesForAll();;
+			}
 
+			// Compbine update
 			return Object.assign({},
 				currStoreStates,
 				storesToProps? storesToProps(states): states
