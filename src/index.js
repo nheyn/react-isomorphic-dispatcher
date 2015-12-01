@@ -4,6 +4,7 @@ import React from "react";
 type Dispatcher = any; //TODO
 type DispatcherState = any;
 type DispatcherStates = {[key: string]: DispatcherState};
+type DispacherAction = any;
 
 /*------------------------------------------------------------------------------------------------*/
 //	--- Use Dispatcher Higher-Order Componet ---
@@ -40,27 +41,78 @@ export function useDispatcher(
  * 'useDispatcher') to the props of the given Componet.
  *
  * @param Componet			The Componet to add the states to
+ * @param [storeNames]		The names of the stores to get the state of
  * @param [storesToProps]	A function that takes the states and returns the props to add
+ * @param [loadActions]		Actions to dispatch when the componet is mounted
  *
  * @return					The Componet with the states added
  */
 export function addStoreState(
 	Componet:		ReactClass<any, any, any>,
-	storesToProps?:	(states: DispatcherStates) => any
+	storeNames?:	?Array<string>,
+	storesToProps?:	?(states: DispatcherStates) => any,
+	loadActions?:	Array<DispacherAction>
 ):					ReactClass<any, any, any> {
 	const AddStoreState = React.createClass({
 		contextTypes: {
 			dispatcher: React.PropTypes.object.isRequired
 		},
-		render(): ReactElement {
-			const storeStates = this.getStoreStates();	//TODO, change to state (to be updated)
-
-			return <Componet {...storeStates} {...this.props} />;
+		getInitialState(): any {
+			return {
+				storeStates: this.getStoreStates()
+			};
 		},
-		getStoreStates(): any {
+		componentDidMount() {
+			if(storeNames) {
+				//Subscribe to given stores in the dispatcher
+				let unsubscribeFuncs = [];
+				storeNames.forEach((storeName) => {
+					const unsubscribe = this.context.dispatcher.subscribeTo(storeName, () => {
+						this.setState((currState) => {
+							storeStates: this.getStoreStates(currState.storeStates)
+						});
+					});
+					unsubscribeFuncs.push(unsubscribe);
+				});
+
+				this.setState({
+					unsubscribe: () => unsubscribeFuncs.forEach((unsubscribe) => unsubscribe())
+				});
+			}
+			else {
+				// Subscribe to all of the stores
+				const unsubscribe = this.context.dispatcher.subscribeToAll(() => {
+					this.setState((currState) => {
+						storeStates: this.getStoreStates(currState.storeStates)
+					});
+				});
+				this.setState({ unsubscribe });
+			}
+
+			// Load data
+			if(loadActions && loadActions.length >= 1) {
+				loadActions.forEach((action) => {
+					this.context.dispatcher.dispatch(action);
+				});
+			}
+		},
+		componentWillUnmount() {
+			if(!this.state.unsubscribe) return;
+			this.state.unsubscribe();
+
+			this.setState({ unsubscribe: null })
+		},
+		render(): ReactElement {
+			return <Componet {...this.state.storeStates} {...this.props} />;
+		},
+		getStoreStates(currStoreStates: any = {}): any {
+			//TODO, set up for selected stores
 			const states = this.context.dispatcher.getStatesForAll();
 
-			return storesToProps? storesToProps(states): states;
+			return Object.assign({},
+				currStoreStates,
+				storesToProps? storesToProps(states): states
+			);
 		}
 	});
 
