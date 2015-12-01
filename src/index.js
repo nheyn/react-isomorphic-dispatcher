@@ -7,15 +7,25 @@ type Dispatcher = any; //TODO
 //	--- Use Dispatcher Higher-Order Componet ---
 /*------------------------------------------------------------------------------------------------*/
 /**
- * //TODO
+ * Create a higher-order Componet that puts a dispatcher in the context.
+ *
+ * @param Componet		The Componet to start adding the dispatcher to the context at
+ * @param dispatcher	The dispatcher to add to the context
+ *
+ * @return				The new Componet
  */
 export function useDispatcher(
 	Componet:	ReactClass<any, any, any>,
 	dispatcher:	Dispatcher
 ):				ReactClass<any, any, any> {
 	const UseDispatcher = React.createClass({
+		childContextTypes: {
+			dispatcher: React.PropTypes.object.isRequired
+		},
+		getChildContext(): any {
+			return { dispatcher };
+		},
 		render(): ReactElement {
-			//TODO
 			return <Componet {...this.props} />;
 		}
 	});
