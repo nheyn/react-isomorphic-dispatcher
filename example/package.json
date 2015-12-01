@@ -1,0 +1,14 @@
+{
+	"name": "react-isomorphic-dispatcher-example",
+	"version": "0.1.0",
+	"description": "Example Site using the React binding for isomorphic-dispatcher.",
+	"author": "Nick Heyn <nick@heyn.io>",
+	"dependencies": {
+		"browserify": "*",
+		"babel": "*",
+		"express": "*",
+		"react": "0.14",
+		"react-dom": "0.14",
+		"react-isomorphic-dispatcher": "/var/www/react-isomorphic-dispatcher/"
+	}
+}
