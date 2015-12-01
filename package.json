@@ -9,6 +9,7 @@
 		"url" : ""
 	},
 	"dependencies": {
+		"react": "0.14"
 	},
 	"devDependencies": {
 		"babel": "*"
