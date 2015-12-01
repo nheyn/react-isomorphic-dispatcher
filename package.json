@@ -1,0 +1,20 @@
+{
+	"name": "react-isomorphic-dispatcher",
+	"version": "0.1.0",
+	"description": "React binding for isomorphic-dispatcher.",
+	"author": "Nick Heyn <nick@heyn.io>",
+	"main": "./lib/index.js",
+	"repository" : {
+		"type" : "git",
+		"url" : ""
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"babel": "*"
+	},
+	"scripts": {
+		"prepublish": "babel ./src/ -d ./lib/"
+	},
+	"license": "MIT"
+}
