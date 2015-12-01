@@ -8,7 +8,7 @@ var browserify = require('browserify');
 /*------------------------------------------------------------------------------------------------*/
 // Run babel on src/
 var babelPromise = runBabel(path.join(__dirname, 'src'), path.join(__dirname, 'lib'), [
-	'app.js', 'server.js'. 'client.js'
+	'app.js', 'client.js', 'server.js', 'stores.js'
 ]);
 
 // Run browserify on lib/client.js
