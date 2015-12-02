@@ -10,7 +10,7 @@ const App = React.createClass({
 	},
 	render(): ReactElement {
 		//TODO
-		return <div />;
+		return <div>App - NYI</div>;
 	}
 });
 

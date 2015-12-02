@@ -1,4 +1,5 @@
 /* @flow */
+import React from 'react';
 import RectDOM from 'react-dom';
 
 import App from './app';
@@ -12,8 +13,7 @@ const dispatcher = {};
 /*------------------------------------------------------------------------------------------------*/
 //	--- Render on client ---
 /*------------------------------------------------------------------------------------------------*/
-console.log('nyi');
-/*RectDOM.render(
+RectDOM.render(
 	<App dispatcher={dispatcher} />,
 	window.document.getElementById('react-element')
-);*/
+);

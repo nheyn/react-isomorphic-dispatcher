@@ -23,16 +23,16 @@ app.use('/', (req, res, next) => {
 		return;
 	}
 
-	const appMarkup = 'Example: NYI'; /*ReactDOM.renderToString(
+	const appMarkup = ReactDOM.renderToString(
 		<App dispatcher={dispatcher} />
-	);*/
+	);
 	const pageMarkup = ReactDOM.renderToStaticMarkup(
 		<html>
 			<head>
 				<title>Example - react-isomorphic-dispatcher</title>
 			</head>
 			<body>
-				<div id="react-element">{appMarkup}</div>
+				<div id="react-element" dangerouslySetInnerHTML={{__html: appMarkup}} />
 				<script src="/app.js" />
 			</body>
 		</html>
