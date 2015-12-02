@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import { useDispatcher, addStoreState, addDispatch } from 'react-isomorphic-dispatcher';
 
 /*------------------------------------------------------------------------------------------------*/
 //	--- App Component ---
@@ -9,8 +10,9 @@ const App = React.createClass({
 		dispatcher: React.PropTypes.object.isRequired
 	},
 	render(): ReactElement {
-		//TODO
-		return <div>App - NYI</div>;
+		const Div = useDispatcher('div', this.props.dispatcher);
+
+		return <Div>App - NYI</Div>;
 	}
 });
 
