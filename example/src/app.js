@@ -15,7 +15,7 @@ const App = React.createClass({
 		const Summary = addStoreState(CustomPropsComponent, ['storeC'], (states) => {
 			const { value, count } = states.storeC;
 			return {
-				summary: `Store ${value} w/ count=${count}`
+				summary: `Store ${value}${count? ` w/ count=${count}`: ''}`
 			};
 		});
 		const ClickCount = addStoreState(AllStoresComponent);
@@ -40,12 +40,22 @@ const App = React.createClass({
 
 export default App;
 
+const StorePropType = React.PropTypes.shape({
+	value: React.PropTypes.string.isRequired,
+	count: React.PropTypes.number
+});
+
 /*------------------------------------------------------------------------------------------------*/
 //	--- Some Stores Component ---
 /*------------------------------------------------------------------------------------------------*/
 const SomeStoresComponent  = React.createClass({
+	propTypes: {
+		storeA: StorePropType.isRequired,
+		storeB: StorePropType.isRequired
+	},
 	render(): ReactElement {
 		//TODO
+		console.log('SomeStoresComponent.props=', this.props);``
 		return <div>SomeStoresComponent</div>;
 	}
 });
@@ -54,8 +64,12 @@ const SomeStoresComponent  = React.createClass({
 //	--- All Stores Component ---
 /*------------------------------------------------------------------------------------------------*/
 const AllStoresComponent  = React.createClass({
+	propTypes: {
+		summary: React.PropTypes.string.isRequired
+	},
 	render(): ReactElement {
 		//TODO
+		console.log('AllStoresComponent.props=', this.props);``
 		return <div>AllStoresComponent</div>;
 	}
 });
@@ -64,8 +78,14 @@ const AllStoresComponent  = React.createClass({
 //	--- Custom Props Component ---
 /*------------------------------------------------------------------------------------------------*/
 const CustomPropsComponent  = React.createClass({
+	propTypes: {
+		storeA: StorePropType.isRequired,
+		storeB: StorePropType.isRequired,
+		storeC: StorePropType.isRequired
+	},
 	render(): ReactElement {
 		//TODO
+		console.log('CustomPropsComponent.props=', this.props);``
 		return <div>CustomPropsComponent</div>;
 	}
 });
@@ -74,8 +94,12 @@ const CustomPropsComponent  = React.createClass({
 //	--- Dispatch Component ---
 /*------------------------------------------------------------------------------------------------*/
 const DispatchComponent  = React.createClass({
+	propTypes: {
+		dispatch: React.PropTypes.func.isRequired
+	},
 	render(): ReactElement {
 		//TODO
+		console.log('DispatchComponent.props=', this.props);``
 		return <div>DispatchComponent</div>;
 	}
 });
