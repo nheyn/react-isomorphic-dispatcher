@@ -110,11 +110,11 @@ export function addStoreState(
 			let states = {};
 			if(storeNames) {
 				storeNames.forEach((storeName) => {
-					states[storeName] = this.context.dispatcher.getStatesFor(storeName);
+					states[storeName] = this.context.dispatcher.getStateFor(storeName);
 				});
 			}
 			else {
-				states = this.context.dispatcher.getStatesForAll();;
+				states = this.context.dispatcher.getStateForAll();;
 			}
 
 			// Compbine update
@@ -129,8 +129,8 @@ export function addStoreState(
 }
 
 /**
- * Create a higher-order Component that will add that dispatch function of the dispatcher (added with
- * 'useDispatcher') to the props of the given Component.
+ * Create a higher-order Component that will add that dispatch function of the dispatcher (added
+ * with 'useDispatcher') to the props of the given Component.
  *
  * @param Component			The Component to add the dispatch function to
  *

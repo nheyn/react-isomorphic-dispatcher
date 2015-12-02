@@ -65,7 +65,9 @@ const SomeStoresComponent  = React.createClass({
 /*------------------------------------------------------------------------------------------------*/
 const AllStoresComponent  = React.createClass({
 	propTypes: {
-		summary: React.PropTypes.string.isRequired
+		storeA: StorePropType.isRequired,
+		storeB: StorePropType.isRequired,
+		storeC: StorePropType.isRequired
 	},
 	render(): ReactElement {
 		//TODO
@@ -79,9 +81,7 @@ const AllStoresComponent  = React.createClass({
 /*------------------------------------------------------------------------------------------------*/
 const CustomPropsComponent  = React.createClass({
 	propTypes: {
-		storeA: StorePropType.isRequired,
-		storeB: StorePropType.isRequired,
-		storeC: StorePropType.isRequired
+		summary: React.PropTypes.string.isRequired
 	},
 	render(): ReactElement {
 		//TODO
