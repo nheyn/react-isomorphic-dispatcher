@@ -106,6 +106,7 @@ export function addStoreState(
 			return <Component {...this.state.storeStates} {...this.props} />;
 		},
 		getStoreStates(currStoreStates: any = {}): any {
+			//ERROR, this is the method that is (probably) not working
 			//Get states from the correct stores
 			let states = {};
 			if(storeNames) {

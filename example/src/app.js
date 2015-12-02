@@ -54,9 +54,13 @@ const SomeStoresComponent  = React.createClass({
 		storeB: StorePropType.isRequired
 	},
 	render(): ReactElement {
-		//TODO
-		console.log('SomeStoresComponent.props=', this.props);``
-		return <div>SomeStoresComponent</div>;
+		return (
+			<h2>
+				Some Title
+				[storeA.value={this.props.storeA.value}]
+				[storeB.value={this.props.storeA.value}]
+			</h2>
+		);
 	}
 });
 
@@ -70,9 +74,39 @@ const AllStoresComponent  = React.createClass({
 		storeC: StorePropType.isRequired
 	},
 	render(): ReactElement {
-		//TODO
-		console.log('AllStoresComponent.props=', this.props);``
-		return <div>AllStoresComponent</div>;
+		const counts = this.getCounts();
+		return (
+			<div>
+			{counts.a?
+				<div>
+					<label>Store A</label>
+					<span>{counts.a}</span>
+				</div>:
+				null
+			}
+			{counts.b?
+				<div>
+					<label>Store B</label>
+					<span>{counts.b}</span>
+				</div>:
+				null
+			}
+			{counts.c?
+				<div>
+					<label>Store C</label>
+					<span>{counts.c}</span>
+				</div>:
+				null
+			}
+			</div>
+		);
+	},
+	getCounts(): { a: number, b: number, c: number } {
+		return {
+			a: this.props.storeA.count,
+			b: this.props.storeB.count,
+			c: this.props.storeC.count
+		};
 	}
 });
 
@@ -84,9 +118,7 @@ const CustomPropsComponent  = React.createClass({
 		summary: React.PropTypes.string.isRequired
 	},
 	render(): ReactElement {
-		//TODO
-		console.log('CustomPropsComponent.props=', this.props);``
-		return <div>CustomPropsComponent</div>;
+		return <div>{this.props.summary}</div>;
 	}
 });
 
@@ -98,8 +130,30 @@ const DispatchComponent  = React.createClass({
 		dispatch: React.PropTypes.func.isRequired
 	},
 	render(): ReactElement {
-		//TODO
-		console.log('DispatchComponent.props=', this.props);``
-		return <div>DispatchComponent</div>;
-	}
+		return (
+			<div>
+				<h4 onClick={() => this.onClick('a')}>A</h4>
+				<h4 onClick={() => this.onClick('b')}>B</h4>
+				<h4 onClick={() => this.onClick('c')}>C</h4>
+			</div>
+		);
+	},
+	onClick(storeChar: string) {
+		let type = null;
+		switch(storeChar) {
+			case 'a':
+				type = 'ADD_TO_A';
+				break;
+			case 'b':
+				type = 'ADD_TO_B';
+				break;
+			case 'c':
+				type = 'ADD_TO_C';
+				break;
+			default:
+				return;
+		}
+
+		this.props.dispatch({ type });
+	},
 });
