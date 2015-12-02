@@ -1,5 +1,7 @@
 /* @flow */
 import express from 'express';
+import React from 'react';
+import ReactDOM from 'react-dom/server';
 
 import App from './app';
 
@@ -14,8 +16,21 @@ const dispatcher = {};
 /*------------------------------------------------------------------------------------------------*/
 let app = express();
 app.use('/', (req, res, next) => {
-	//TODO, add page load
-	next(new Error('NYI'));
+	const appMarkup = 'Example: NYI'; /*ReactDOM.renderToString(
+		<App dispatcher={dispatcher} />
+	);*/
+	const pageMarkup = ReactDOM.renderToStaticMarkup(
+		<html>
+			<head>
+				<title>Example - react-isomorphic-dispatcher</title>
+			</head>
+			<body>
+				<div id="react-element">{appMarkup}</div>
+				<script src="/app.js" />
+			</body>
+		</html>
+	);
+	res.send(pageMarkup);
 });
 app.use('/app.js', (req, res, next) => {
 	//TODO, add app.js load
@@ -27,7 +42,8 @@ app.use('/dispatch', (req, res, next) => {
 });
 app.use((err, req, res, next) => {
 	//TODO, handle error
-	console.error('[Error Handling: NYI]: ', err);
+	console.error(err.stack);
+	res.status(500);
 });
 
 /*------------------------------------------------------------------------------------------------*/

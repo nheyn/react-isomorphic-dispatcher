@@ -31,27 +31,29 @@ browserifyPromise.then(function() {
 //	--- Helper functions ---
 /*------------------------------------------------------------------------------------------------*/
 function runBabel(srcDir, dstDir, files) {
-	return Promise.all(files.map(function(file) {
-		return new Promise(function(resolve, reject) {
-			babel.transformFile(path.join(srcDir, file), function(err, results) {
-				if(err) {
-					reject(err);
-					return;
-				}
-
-				var writeStream = fs.createWriteStream(path.join(dstDir, file));
-				writeStream.on('error', function(err) {
-					reject(err)
-				});
-				writeStream.on('finish', function() {
-					resolve(true);
-				});
-
-				writeStream.write(results.code);
-				writeStream.end();
-			});
+	var makeDirPromise = new Promise(function(resolve, reject) {
+		fs.mkdir(dstDir, function(err) {
+			resolve(dstDir);
 		});
-	}));
+	});
+
+	return makeDirPromise.then(function() {
+		return Promise.all(files.map(function(file) {
+			return new Promise(function(resolve, reject) {
+				babel.transformFile(path.join(srcDir, file), function(err, results) {
+					if(err) {
+						reject(err);
+						return;
+					}
+
+					fs.writeFile(path.join(dstDir, file), results.code, function(err) {
+						if(err) reject(err);
+						else	resolve(true)
+					});
+				});
+			});
+		}));
+	});
 }
 
 function runBrowerify(src, dst, modulesToIgnore) {

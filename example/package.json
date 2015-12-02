@@ -5,10 +5,11 @@
 	"author": "Nick Heyn <nick@heyn.io>",
 	"dependencies": {
 		"browserify": "*",
-		"babel": "*",
+		"babel-core": "5",
 		"express": "*",
 		"react": "0.14",
 		"react-dom": "0.14",
+		"isomorphic-dispatcher": "https://github.com/nheyn/isomorphic-dispatcher.git",
 		"react-isomorphic-dispatcher": "/var/www/react-isomorphic-dispatcher/"
 	}
 }

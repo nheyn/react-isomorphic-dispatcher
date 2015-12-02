@@ -12,7 +12,8 @@ const dispatcher = {};
 /*------------------------------------------------------------------------------------------------*/
 //	--- Render on client ---
 /*------------------------------------------------------------------------------------------------*/
-RectDOM.render(
+console.log('nyi');
+/*RectDOM.render(
 	<App dispatcher={dispatcher} />,
 	window.document.getElementById('react-element')
-);
+);*/
