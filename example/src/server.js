@@ -53,3 +53,4 @@ app.use((err, req, res, next) => {
 //	--- Start server ---
 /*------------------------------------------------------------------------------------------------*/
 app.listen(80);
+console.log('listening on port', 80);

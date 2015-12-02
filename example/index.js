@@ -7,12 +7,15 @@ var browserify = require('browserify');
 //	--- Transpile source ---
 /*------------------------------------------------------------------------------------------------*/
 // Run babel on src/
+console.log('babel src/ => lib/: START');
 var babelPromise = runBabel(path.join(__dirname, 'src'), path.join(__dirname, 'lib'), [
 	'app.js', 'client.js', 'server.js', 'stores.js'
 ]);
 
 // Run browserify on lib/client.js
 var browserifyPromise = babelPromise.then(function() {
+	console.log('babel src/ => lib/: FINISH');
+	console.log('browserify lib/client.js => app.js: START');
 	return runBrowerify(path.join(__dirname, 'lib/client.js'), path.join(__dirname, 'app.js'), [
 		'express'
 	]);
@@ -22,6 +25,11 @@ var browserifyPromise = babelPromise.then(function() {
 //	--- Start server ---
 /*------------------------------------------------------------------------------------------------*/
 browserifyPromise.then(function() {
+	console.log('browserify lib/client.js => app.js: FINISH');
+
+	console.log('starting server');
+
+	// Start server.js
 	require('./lib/server.js');
 }).catch(function(err) {
 	console.error('[Transpile Error]: ', err);
