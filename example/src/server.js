@@ -1,4 +1,6 @@
 /* @flow */
+import path from 'path';
+
 import express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -16,6 +18,11 @@ const dispatcher = {};
 /*------------------------------------------------------------------------------------------------*/
 let app = express();
 app.use('/', (req, res, next) => {
+	if(req.url !== '/') {
+		next();
+		return;
+	}
+
 	const appMarkup = 'Example: NYI'; /*ReactDOM.renderToString(
 		<App dispatcher={dispatcher} />
 	);*/
@@ -32,18 +39,14 @@ app.use('/', (req, res, next) => {
 	);
 	res.send(pageMarkup);
 });
-app.use('/app.js', (req, res, next) => {
-	//TODO, add app.js load
-	next(new Error('NYI'));
-});
+app.use('/app.js', express.static(path.join(__dirname, '../app.js')));
 app.use('/dispatch', (req, res, next) => {
 	//TODO, add isomporphic-dispatcher communication
 	next(new Error('NYI'));
 });
 app.use((err, req, res, next) => {
-	//TODO, handle error
 	console.error(err.stack);
-	res.status(500);
+	res.status(500).send(err.message);
 });
 
 /*------------------------------------------------------------------------------------------------*/
