@@ -6,13 +6,13 @@ declare module 'isomorphic-dispatcher' {
 	): Dispatcher
 
 	declare function createClientDispatcher(
-		finishOnServer: DispatcherIsoFunc,
-		stores: StoresObject
+		stores: StoresObject,
+		finishOnServer: DispatcherIsoFunc
 	): Dispatcher
 
 	declare function createServerDispatcher(
-		getOnServerArg: () => any | Promise<any>,
-		stores: StoresObject
+		stores: StoresObject,
+		getOnServerArg: () => any | Promise<any>
 	): Dispatcher
 }
 

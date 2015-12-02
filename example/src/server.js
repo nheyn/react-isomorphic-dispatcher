@@ -4,14 +4,10 @@ import path from 'path';
 import express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import { createServerDispatcher } from 'isomorphic-dispatcher';
 
+import { storeA, storeB, storeC } from './stores';
 import App from './app';
-
-/*------------------------------------------------------------------------------------------------*/
-//	--- Create dispatcher ---
-/*------------------------------------------------------------------------------------------------*/
-//TODO
-const dispatcher = {};
 
 /*------------------------------------------------------------------------------------------------*/
 //	--- Create server ---
@@ -23,6 +19,7 @@ app.use('/', (req, res, next) => {
 		return;
 	}
 
+	const dispatcher = createServerDispatcher({ storeA, storeB, storeC }, () => req);
 	const appMarkup = ReactDOM.renderToString(
 		<App dispatcher={dispatcher} />
 	);
@@ -42,6 +39,8 @@ app.use('/', (req, res, next) => {
 app.use('/app.js', express.static(path.join(__dirname, '../app.js')));
 app.use('/dispatch', (req, res, next) => {
 	//TODO, add isomporphic-dispatcher communication
+	const dispatcher = createServerDispatcher({ storeA, storeB, storeC }, () => req);
+
 	next(new Error('NYI'));
 });
 app.use((err, req, res, next) => {
