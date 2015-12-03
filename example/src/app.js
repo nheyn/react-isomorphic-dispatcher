@@ -2,6 +2,11 @@
 import React from 'react';
 import { useDispatcher, addStoreState, addDispatch } from 'react-isomorphic-dispatcher';
 
+const StorePropType = React.PropTypes.shape({
+	value: React.PropTypes.string.isRequired,
+	count: React.PropTypes.number
+});
+
 /*------------------------------------------------------------------------------------------------*/
 //	--- App Component ---
 /*------------------------------------------------------------------------------------------------*/
@@ -17,7 +22,7 @@ const App = React.createClass({
 			return {
 				summary: `Store ${value}${count? ` w/ count=${count}`: ''}`
 			};
-		});
+		}, [ { type: 'WAIT' }, { type: 'ADD_TO_C' } ]);
 		const ClickCount = addStoreState(AllStoresComponent);
 		const Clicker = addDispatch(DispatchComponent);
 
@@ -25,25 +30,14 @@ const App = React.createClass({
 			<Wrapper>
 				<Title />
 				<Summary />
-				<table>
-					<tbody>
-						<tr>
-							<td><ClickCount /></td>
-							<td><Clicker /></td>
-						</tr>
-					</tbody>
-				</table>
+				<hr />
+				<Clicker />
+				<ClickCount />
 			</Wrapper>
 		);
 	}
 });
-
 export default App;
-
-const StorePropType = React.PropTypes.shape({
-	value: React.PropTypes.string.isRequired,
-	count: React.PropTypes.number
-});
 
 /*------------------------------------------------------------------------------------------------*/
 //	--- Some Stores Component ---
@@ -132,9 +126,9 @@ const DispatchComponent  = React.createClass({
 	render(): ReactElement {
 		return (
 			<div>
-				<h4 onClick={() => this.onClick('a')}>A</h4>
-				<h4 onClick={() => this.onClick('b')}>B</h4>
-				<h4 onClick={() => this.onClick('c')}>C</h4>
+				<button onClick={() => this.onClick('a')}>A</button>
+				<button onClick={() => this.onClick('b')}>B</button>
+				<button onClick={() => this.onClick('c')}>C</button>
 			</div>
 		);
 	},

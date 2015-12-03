@@ -53,24 +53,38 @@ export function addStoreState(
 	storesToProps?:	?(states: DispatcherStates) => any,
 	loadActions?:	Array<DispacherAction>
 ):					ReactClass<any, any, any> {
+
+	const getStoreStates = (dispatcher) => {
+		//Get states from the correct stores
+		let states = {};
+		if(storeNames) {
+			storeNames.forEach((storeName) => {
+				states[storeName] = dispatcher.getStateFor(storeName);
+			});
+		}
+		else {
+			states = dispatcher.getStateForAll();
+		}
+
+		// Combine update
+		return storesToProps? storesToProps(states): states;
+	}
+
 	const AddStoreState = React.createClass({
 		contextTypes: {
 			dispatcher: React.PropTypes.object.isRequired
 		},
 		getInitialState(): any {
-			return {
-				storeStates: this.getStoreStates()
-			};
+			return { storeStates: getStoreStates(this.context.dispatcher) };
 		},
 		componentDidMount() {
+			const dispatcher = this.context.dispatcher;
 			if(storeNames) {
 				//Subscribe to given stores in the dispatcher
 				let unsubscribeFuncs = [];
 				storeNames.forEach((storeName) => {
-					const unsubscribe = this.context.dispatcher.subscribeTo(storeName, () => {
-						this.setState((currState) => {
-							storeStates: this.getStoreStates(currState.storeStates)
-						});
+					const unsubscribe = dispatcher.subscribeTo(storeName, () => {
+						this.setState({ storeStates: getStoreStates(dispatcher) });
 					});
 					unsubscribeFuncs.push(unsubscribe);
 				});
@@ -81,19 +95,19 @@ export function addStoreState(
 			}
 			else {
 				// Subscribe to all of the stores
-				const unsubscribe = this.context.dispatcher.subscribeToAll(() => {
-					this.setState((currState) => {
-						storeStates: this.getStoreStates(currState.storeStates)
-					});
+				const unsubscribe = dispatcher.subscribeToAll(() => {
+					this.setState({ storeStates: getStoreStates(dispatcher) });
 				});
 				this.setState({ unsubscribe });
 			}
 
 			// Load data
-			if(loadActions && loadActions.length >= 1) {
-				loadActions.forEach((action) => {
-					this.context.dispatcher.dispatch(action);
-				});
+			if(loadActions && loadActions.length > 0) {
+				// Perform each action in order (wait for last one to finish before next dispatch)
+				loadActions.reduce(
+					(currPromise, action) => currPromise.then(() => dispatcher.dispatch(action)),
+					Promise.resolve(true)
+				);
 			}
 		},
 		componentWillUnmount() {
@@ -104,25 +118,6 @@ export function addStoreState(
 		},
 		render(): ReactElement {
 			return <Component {...this.state.storeStates} {...this.props} />;
-		},
-		getStoreStates(currStoreStates: any = {}): any {
-			//ERROR, this is the method that is (probably) not working
-			//Get states from the correct stores
-			let states = {};
-			if(storeNames) {
-				storeNames.forEach((storeName) => {
-					states[storeName] = this.context.dispatcher.getStateFor(storeName);
-				});
-			}
-			else {
-				states = this.context.dispatcher.getStateForAll();;
-			}
-
-			// Compbine update
-			return Object.assign({},
-				currStoreStates,
-				storesToProps? storesToProps(states): states
-			);
 		}
 	});
 

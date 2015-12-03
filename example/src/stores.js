@@ -27,3 +27,10 @@ storeC = storeC.register((state, action) => {
 		{ count: state.count? state.count+1: 1 }
 	);
 });
+storeC = storeC.register((state, action) => {
+	if(action.type !== 'WAIT') return state;
+
+	return new Promise((resolve) => {
+		setTimeout(() => resolve(state), 2000);
+	});
+});
