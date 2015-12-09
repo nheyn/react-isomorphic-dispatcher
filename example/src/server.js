@@ -10,6 +10,11 @@ import { storeA, storeB, storeC } from './stores';
 import App from './app';
 
 /*------------------------------------------------------------------------------------------------*/
+//	--- Create dispatcher ---
+/*------------------------------------------------------------------------------------------------*/
+const dispatcher = createServerDispatcher({ storeA, storeB, storeC });
+
+/*------------------------------------------------------------------------------------------------*/
 //	--- Create server ---
 /*------------------------------------------------------------------------------------------------*/
 let app = express();
@@ -19,10 +24,11 @@ app.use('/', (req, res, next) => {
 		return;
 	}
 
-	const dispatcher = createServerDispatcher({ storeA, storeB, storeC }, () => req);
+
 	const appMarkup = ReactDOM.renderToString(
-		<App dispatcher={dispatcher} />
+		<App dispatcher={dispatcher.cloneWithOnServerArg(req)} />
 	);
+
 	const pageMarkup = ReactDOM.renderToStaticMarkup(
 		<html>
 			<head>
@@ -39,7 +45,7 @@ app.use('/', (req, res, next) => {
 app.use('/app.js', express.static(path.join(__dirname, '../app.js')));
 app.use('/dispatch', (req, res, next) => {
 	//TODO, add isomporphic-dispatcher communication
-	const dispatcher = createServerDispatcher({ storeA, storeB, storeC }, () => req);
+	const currDispatcher = dispatcher.cloneWithOnServerArg(req);
 
 	next(new Error('NYI'));
 });
