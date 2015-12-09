@@ -1,13 +1,13 @@
 # React Isomorphic Dispatcher
 *React binding for isomorphic-dispatcher*
 
-Contains Higher-order React Components that can bind an (isomorphic-dispatcher)[https://github.com/nheyn/isomorphic-dispatcher] Dispatcher to (react)[https://facebook.github.io/react/] Components.
+Contains Higher-order React Components that can bind an [isomorphic-dispatcher](https://github.com/nheyn/isomorphic-dispatcher) Dispatcher to [react](https://facebook.github.io/react/) Components.
 
 ### Features
 * Save a dispatcher (in context) so that it doesn't need to be explicitly passed to each component that needs it.
 * Add the state of a store, as props, to a Component.
 	* Will send new props every time state of it stores are changed.
-	* NOTE: currently sends every time 'dispatch' is called (waiting for update to (isomorphic-dispatcher)[https://github.com/nheyn/isomorphic-dispatcher])
+	* NOTE: currently sends every time 'dispatch' is called (waiting for update to [isomorphic-dispatcher](https://github.com/nheyn/isomorphic-dispatcher))
 * Add the dispatch method of a Dispatcher, as a prop, to a Component.
 
 ### Dependencies
