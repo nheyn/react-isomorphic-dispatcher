@@ -12,7 +12,7 @@
 		"react": "0.14"
 	},
 	"devDependencies": {
-		"babel": "*"
+		"babel": "5"
 	},
 	"scripts": {
 		"prepublish": "babel ./src/ -d ./lib/"
