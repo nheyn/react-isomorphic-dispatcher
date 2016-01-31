@@ -1,4 +1,6 @@
 /* @flow */
+import 'babel-polyfill';
+
 import React from 'react';
 import RectDOM from 'react-dom';
 import { createClientDispatcher } from 'isomorphic-dispatcher';
