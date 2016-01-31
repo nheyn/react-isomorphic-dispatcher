@@ -5,9 +5,9 @@ type DispatcherState = any;
 type DispatcherStates = {[key: string]: DispatcherState};
 type DispacherAction = any;
 
-/*------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
 //	--- Use Dispatcher Higher-Order Component ---
-/*------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
 /**
  * Create a higher-order Component that puts a dispatcher in the context.
  *
@@ -36,8 +36,8 @@ export function useDispatcher(
 }
 
 /**
- * Create a higher-order Component that will add that state of the dispatcher (added with
- * 'useDispatcher') to the props of the given Component.
+ * Create a higher-order Component that will add that state of the dispatcher (added with 'useDispatcher') to the props
+ * of the given Component.
  *
  * @param Component			The Component to add the states to
  * @param [storeNames]		The names of the stores to get the state of
@@ -124,8 +124,8 @@ export function addStoreState(
 }
 
 /**
- * Create a higher-order Component that will add that dispatch function of the dispatcher (added
- * with 'useDispatcher') to the props of the given Component.
+ * Create a higher-order Component that will add that dispatch function of the dispatcher (added with 'useDispatcher')
+ * to the props of the given Component.
  *
  * @param Component			The Component to add the dispatch function to
  *
@@ -138,10 +138,7 @@ export function addDispatch(Component: ReactClass<any, any, any>): ReactClass<an
 		},
 		render(): ReactElement {
 			return (
-				<Component
-					dispatch={(action) => this.context.dispatcher.dispatch(action)}
-					{...this.props}
-				/>
+				<Component dispatch={(action) => this.context.dispatcher.dispatch(action)} {...this.props} />
 			);
 		}
 	});
