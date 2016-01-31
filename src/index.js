@@ -1,7 +1,6 @@
 /* @flow */
 import React from "react";
 
-type Dispatcher = any; //TODO
 type DispatcherState = any;
 type DispatcherStates = {[key: string]: DispatcherState};
 type DispacherAction = any;
