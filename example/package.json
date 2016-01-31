@@ -13,6 +13,7 @@
 		"babel-preset-stage-0": "6",
 		"babel-preset-react": "6",
 		"browserify": "13",
+		"flow-bin": "^0.20.0",
 		"isomorphic-dispatcher": "1.0.0-rc1",
 		"react-isomorphic-dispatcher": "/var/react-isomorphic-dispatcher/"
 	},
