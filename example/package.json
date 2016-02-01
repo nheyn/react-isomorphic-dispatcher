@@ -14,8 +14,8 @@
 		"babel-preset-react": "6",
 		"browserify": "13",
 		"flow-bin": "^0.20.0",
-		"isomorphic-dispatcher": "1.0.0-rc1",
-		"react-isomorphic-dispatcher": "/var/react-isomorphic-dispatcher/"
+		"isomorphic-dispatcher": "1.0.0-rc2",
+		"react-isomorphic-dispatcher": "file:../react-isomorphic-dispatcher/"
 	},
 	"scripts": {
 		"flow": "(cd src && ../node_modules/.bin/flow)",
