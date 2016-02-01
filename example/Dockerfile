@@ -4,24 +4,30 @@ FROM node:5
 RUN apt-get update
 RUN apt-get install -y libelf1
 
-# Get react-isomorphic-dispatcher (use -v tag in 'docker run' for development)
-WORKDIR /var/
+# Create node user
+RUN groupadd node
+RUN useradd -m -g node node
+
+# Get react-isomorphic-dispatcher
+WORKDIR /home/node/
 RUN git clone https://github.com/nheyn/react-isomorphic-dispatcher.git
+RUN chown node:node ./react-isomorphic-dispatcher
+RUN chown -R node:node ./react-isomorphic-dispatcher/*
 
-WORKDIR /var/react-isomorphic-dispatcher/
+# Get example site source
+WORKDIR /home/node/react-isomorphic-dispatcher-example
+RUN chown node:node .
+
+COPY .babelrc ./.babelrc
+COPY browserify.js ./browserify.js
+COPY package.json ./package.json
+COPY src/ ./src/
+RUN chown -R node:node ./*
+
+# Start Server
+USER node
+RUN (cd ~/react-isomorphic-dispatcher && npm install)
 RUN npm install
-
-# Create example server
-WORKDIR /var/www/
-
-COPY .babelrc /var/www/.babelrc
-COPY browserify.js /var/www/browserify.js
-COPY package.json /var/www/package.json
-COPY src/ /var/www/src/
-#COPY public/ /var/www/public/
-
-RUN npm install --unsafe-perm
-
 CMD npm run start
 
-EXPOSE 80
+EXPOSE 8080
