@@ -12,7 +12,11 @@ RUN useradd -m -g node node
 WORKDIR /home/node/
 RUN git clone https://github.com/nheyn/react-isomorphic-dispatcher.git
 RUN chown node:node ./react-isomorphic-dispatcher
-RUN chown -R node:node ./react-isomorphic-dispatcher/*
+
+
+WORKDIR /home/node//react-isomorphic-dispatcher
+#RUN git <branch>
+RUN chown -R node:node ./*
 
 # Get example site source
 WORKDIR /home/node/react-isomorphic-dispatcher-example

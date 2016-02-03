@@ -1,6 +1,6 @@
 {
 	"name": "react-isomorphic-dispatcher",
-	"version": "1.0.0-rc1",
+	"version": "1.0.0-rc",
 	"description": "React binding for isomorphic-dispatcher.",
 	"author": "Nick Heyn <nick@heyn.io>",
 	"main": "./lib/index.js",
