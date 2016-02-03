@@ -1,6 +1,6 @@
 {
 	"name": "react-isomorphic-dispatcher",
-	"version": "0.2.0",
+	"version": "1.0.0-rc",
 	"description": "React binding for isomorphic-dispatcher.",
 	"author": "Nick Heyn <nick@heyn.io>",
 	"main": "./lib/index.js",
@@ -9,13 +9,26 @@
 		"url" : "https://github.com/nheyn/react-isomorphic-dispatcher"
 	},
 	"dependencies": {
-		"react": "0.14"
+		"react": "^0.14.6"
 	},
 	"devDependencies": {
-		"babel": "5"
+		"babel-cli": "^6.3.0",
+		"babel-preset-es2015": "^6.3.0",
+		"babel-preset-stage-0": "^6.3.0",
+		"babel-preset-react": "^6.3.0",
+		"flow-bin": "^0.20.0"
 	},
 	"scripts": {
-		"prepublish": "babel ./src/ -d ./lib/"
+		"flow": "(cd src && ../node_modules/.bin/flow)",
+		"flow:stop": "(cd src && ../node_modules/.bin/flow stop)",
+		"check": "npm run flow",
+		"build:babel": "babel ./src/ -d ./lib/",
+		"build": "npm run check && npm run build:babel",
+		"prepublish": "npm run build",
+		"clean": "rm -rf ./lib/ && npm flow:stop"
 	},
-	"license": "MIT"
+	"license": "MIT",
+	"engines": {
+		"node": "v5"
+	}
 }

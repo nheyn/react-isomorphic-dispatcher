@@ -1,15 +1,33 @@
 {
 	"name": "react-isomorphic-dispatcher-example",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Example Site using the React binding for isomorphic-dispatcher.",
 	"author": "Nick Heyn <nick@heyn.io>",
 	"dependencies": {
-		"browserify": "*",
-		"babel-core": "5",
-		"express": "*",
-		"react": "0.14",
-		"react-dom": "0.14",
-		"isomorphic-dispatcher": "https://github.com/nheyn/isomorphic-dispatcher.git",
-		"react-isomorphic-dispatcher": "/var/www/react-isomorphic-dispatcher/"
+		"react": "^0.14.6",
+		"react-dom": "^0.14.6",
+		"express": "4",
+		"babel-polyfill": "6",
+		"babel-cli": "6",
+		"babel-preset-es2015": "6",
+		"babel-preset-stage-0": "6",
+		"babel-preset-react": "6",
+		"browserify": "13",
+		"flow-bin": "^0.20.0",
+		"isomorphic-dispatcher": "1.0.0-rc6",
+		"react-isomorphic-dispatcher": "file:../react-isomorphic-dispatcher/"
+	},
+	"scripts": {
+		"flow": "(cd src && ../node_modules/.bin/flow)",
+		"flow:stop": "(cd src && ../node_modules/.bin/flow stop)",
+		"check": "npm run flow",
+		"build:babel": "babel ./src -d ./lib",
+		"build:browserify": "node browserify.js",
+		"build": "npm run check && npm run build:babel && npm run build:browserify",
+		"start": "npm run build && node ./lib/server.js",
+		"clean": "rm -rf ./lib/ && npm flow:stop"
+	},
+	"engines": {
+		"node": "v5"
 	}
 }
