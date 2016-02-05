@@ -15,7 +15,7 @@
 		"browserify": "13",
 		"flow-bin": "^0.20.0",
 		"isomorphic-dispatcher": "1.0.0-rc6",
-		"react-isomorphic-dispatcher": "file:../react-isomorphic-dispatcher/"
+		"react-isomorphic-dispatcher": "file:../../react-isomorphic-dispatcher/"
 	},
 	"scripts": {
 		"flow": "./node_modules/.bin/flow",
