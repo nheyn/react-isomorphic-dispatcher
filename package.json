@@ -9,7 +9,7 @@
 		"url" : "https://github.com/nheyn/react-isomorphic-dispatcher"
 	},
 	"dependencies": {
-		"react": "^0.14.6"
+		"react": "^0.14.7"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.3.0",
