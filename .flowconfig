@@ -1,0 +1,11 @@
+[ignore]
+.*/example/.*
+.*/node_modules/.*
+.*/lib/.*
+
+[include]
+
+[libs]
+flowlib/
+
+[options]
