@@ -16,21 +16,11 @@ COPY flowlib/ ./flowlib/
 COPY .babelrc ./.babelrc
 COPY package.json ./package.json
 COPY src/ ./src/
-COPY example/ ./example/
 
 RUN chown node:node ./
 RUN chown -R node:node ./*
 
-# Install Server
+# Run type check
 USER node
-
-WORKDIR /home/node/react-isomorphic-dispatcher/
 RUN npm install
-
-WORKDIR /home/node/react-isomorphic-dispatcher/example/
-RUN npm install
-
-# Start Server
-CMD npm run start
-
-EXPOSE 8080
+CMD npm run check
