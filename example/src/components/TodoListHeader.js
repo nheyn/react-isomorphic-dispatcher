@@ -6,8 +6,10 @@ import { BASIC_INFO_SET_TITLE } from '../stores/basicInfo';
 
 const TodoListHeader = React.createClass({
   propTypes: {
-    title: React.PropTypes.string.isRequired,
-    authors: React.PropTypes.arrayOf(React.PropTypes.string.isRequired).isRequired,
+    basicInfo: React.PropTypes.shape({
+      title: React.PropTypes.string.isRequired,
+      authors: React.PropTypes.arrayOf(React.PropTypes.string.isRequired).isRequired,
+    }).isRequired,
     dispatch: React.PropTypes.func.isRequired
   },
   updateTitle(newTitle) {
@@ -17,7 +19,7 @@ const TodoListHeader = React.createClass({
     });
   },
   render() {
-    const  { title, authors } = this.props;
+    const  { title, authors } = this.props.basicInfo;
     return (
       <div>
         <TextField initialValue={title} placeholder="List Title" onUpdate={this.updateTitle} />
