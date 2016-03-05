@@ -16,7 +16,7 @@
     "babel-preset-es2015": "^6.3.0",
     "babel-preset-stage-0": "^6.3.0",
     "babel-preset-react": "^6.3.0",
-    "flow-bin": "^0.20.0"
+    "flow-bin": "^0.22.0"
   },
   "scripts": {
     "flow": "./node_modules/.bin/flow",

@@ -16,10 +16,7 @@ type DispacherAction = any;
  *
  * @return        The new Component
  */
-export function useDispatcher(
-  Component:  ReactClass<any, any, any>,
-  dispatcher:  Dispatcher
-):        ReactClass<any, any, any> {
+export function useDispatcher(Component: ReactClass, dispatcher: Dispatcher): ReactClass {
   const UseDispatcher = React.createClass({
     childContextTypes: {
       dispatcher: React.PropTypes.object.isRequired
@@ -27,7 +24,7 @@ export function useDispatcher(
     getChildContext(): any {
       return { dispatcher };
     },
-    render(): ReactElement {
+    render(): React.Element {
       return <Component {...this.props} />;
     }
   });
@@ -47,11 +44,11 @@ export function useDispatcher(
  * @return          The Component with the states added
  */
 export function addStoreState(
-  Component:    ReactClass<any, any, any>,
+  Component:      ReactClass,
   storeNameArg?:  ?(string | Array<string>),
-  storesToProps?:  ?(states: DispatcherStates) => any,
-  loadActions?:  Array<DispacherAction>
-):          ReactClass<any, any, any> {
+  storesToProps?: ?(states: DispatcherStates) => any,
+  loadActions?:   Array<DispacherAction>
+):                ReactClass {
   // Get storeNameArg as an ?Array
   const storeNames = storeNameArg?
             (Array.isArray(storeNameArg)? storeNameArg: [storeNameArg]):
@@ -121,7 +118,7 @@ export function addStoreState(
 
       this.setState({ unsubscribe: null })
     },
-    render(): ReactElement {
+    render(): React.Element {
       return <Component {...this.state.storeStates} {...this.props} />;
     }
   });
@@ -136,12 +133,12 @@ export function addStoreState(
  *
  * @return          The Component with the dispatch function
  */
-export function addDispatch(Component: ReactClass<any, any, any>): ReactClass<any, any, any> {
+export function addDispatch(Component: ReactClass): ReactClass {
   const AddDispatch = React.createClass({
     contextTypes: {
       dispatcher: React.PropTypes.object.isRequired
     },
-    render(): ReactElement {
+    render(): React.Element {
       return (
         <Component dispatch={(action) => this.context.dispatcher.dispatch(action)} {...this.props} />
       );
