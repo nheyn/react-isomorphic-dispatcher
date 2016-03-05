@@ -6,13 +6,13 @@ Contains Higher-order React Components that can bind an [isomorphic-dispatcher](
 ### Features
 * Save a dispatcher (in context) so that it doesn't need to be explicitly passed to each component that needs it.
 * Add the state of a store, as props, to a Component.
-	* Will send new props every time state of it stores are changed.
-	* NOTE: currently sends every time 'dispatch' is called (waiting for update to [isomorphic-dispatcher](https://github.com/nheyn/isomorphic-dispatcher))
+  * Will send new props every time state of it stores are changed.
+  * NOTE: currently sends every time 'dispatch' is called (waiting for update to [isomorphic-dispatcher](https://github.com/nheyn/isomorphic-dispatcher))
 * Add the dispatch method of a Dispatcher, as a prop, to a Component.
 
 ### Dependencies
 * ES2015(ES6) Promises
-	* Must include an ES2015 compatible Promises library, tested using node 4 Promises.
+  * Must include an ES2015 compatible Promises library, tested using node 4 Promises.
 
 ### Usage
 #### useDispatcher(Component, dispatcher)
@@ -38,21 +38,21 @@ An array of actions, 'loadActions', can be given to be passed to dispatch on 'co
 ```
 var addStoreState = require('react-isomorphic-dispatcher').addStoreState;
 var SomeComponentWithStoreState = addStoreState(
-	SomeComponent,
-	['storeA', 'storeB'],							// Gets storeA and storeB from dispatcher
-	function(storeStates) {
-		return { storeStates: stores };				// SomeComponet will have props, storeState
-	},
-	[{ type: 'ACTION_1' }, { type: 'ACTION_@' }]	// Two .dispatch calls will happen on mount
+  SomeComponent,
+  ['storeA', 'storeB'],              // Gets storeA and storeB from dispatcher
+  function(storeStates) {
+    return { storeStates: stores };        // SomeComponet will have props, storeState
+  },
+  [{ type: 'ACTION_1' }, { type: 'ACTION_@' }]  // Two .dispatch calls will happen on mount
 );
 
 React.render(
-	(
-		<SomeComponentWithDispatcher>
-			<SomeComponentWithStoreState />
-		</SomeComponentWithDispatcher>
-	),
-	el
+  (
+    <SomeComponentWithDispatcher>
+      <SomeComponentWithStoreState />
+    </SomeComponentWithDispatcher>
+  ),
+  el
 );
 ```
 
@@ -63,12 +63,12 @@ var addDispatch = require('react-isomorphic-dispatcher').addDispatch;
 var SomeComponetWithDispatch = addDispatch(SomeComponent); SomeComponet will have props, dispatch
 
 React.render(
-	(
-		<SomeComponentWithDispatcher>
-			<SomeComponetWithDispatch />
-		</SomeComponentWithDispatcher>
-	),
-	el
+  (
+    <SomeComponentWithDispatcher>
+      <SomeComponetWithDispatch />
+    </SomeComponentWithDispatcher>
+  ),
+  el
 );
 ```
 
