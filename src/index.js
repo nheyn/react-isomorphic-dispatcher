@@ -48,42 +48,48 @@ export function useDispatcher(
  */
 export function addStoreState(
 	Component:		ReactClass<any, any, any>,
-	storeNames?:	?Array<string>,
+	storeNameArg?:	?(string | Array<string>),
 	storesToProps?:	?(states: DispatcherStates) => any,
 	loadActions?:	Array<DispacherAction>
 ):					ReactClass<any, any, any> {
-
-	const getStoreStates = (dispatcher) => {
-		//Get states from the correct stores
-		let states = {};
-		if(storeNames) {
-			storeNames.forEach((storeName) => {
-				states[storeName] = dispatcher.getStateFor(storeName);
-			});
-		}
-		else {
-			states = dispatcher.getStateForAll();
-		}
-
-		// Combine update
-		return storesToProps? storesToProps(states): states;
-	}
+	// Get storeNameArg as an ?Array
+	const storeNames = storeNameArg?
+						(Array.isArray(storeNameArg)? storeNameArg: [storeNameArg]):
+						null;
 
 	const AddStoreState = React.createClass({
 		contextTypes: {
 			dispatcher: React.PropTypes.object.isRequired
 		},
 		getInitialState(): any {
-			return { storeStates: getStoreStates(this.context.dispatcher) };
+			return { storeStates: this.getStoreStates() };
+		},
+		getStoreStates(): Object {
+			const { dispatcher } = this.context;
+
+			//Get states from the correct stores
+			let states = {};
+			if(storeNames) {
+				storeNames.forEach((storeName) => {
+					states[storeName] = dispatcher.getStateFor(storeName);
+				});
+			}
+			else {
+				states = dispatcher.getStateForAll();
+			}
+
+			// Combine update
+			return storesToProps? storesToProps(states): states;
 		},
 		componentDidMount() {
-			const dispatcher = this.context.dispatcher;
+			const { dispatcher } = this.context;
+
 			if(storeNames) {
 				//Subscribe to given stores in the dispatcher
 				let unsubscribeFuncs = [];
 				storeNames.forEach((storeName) => {
 					const unsubscribe = dispatcher.subscribeTo(storeName, () => {
-						this.setState({ storeStates: getStoreStates(dispatcher) });
+						this.setState({ storeStates: this.getStoreStates() });
 					});
 					unsubscribeFuncs.push(unsubscribe);
 				});
@@ -95,7 +101,7 @@ export function addStoreState(
 			else {
 				// Subscribe to all of the stores
 				const unsubscribe = dispatcher.subscribeToAll(() => {
-					this.setState({ storeStates: getStoreStates(dispatcher) });
+					this.setState({ storeStates: this.getStoreStates() });
 				});
 				this.setState({ unsubscribe });
 			}
@@ -124,8 +130,7 @@ export function addStoreState(
 }
 
 /**
- * Create a higher-order Component that will add that dispatch function of the dispatcher (added with 'useDispatcher')
- * to the props of the given Component.
+ * Create a higher-order Component that will add that dispatch function of the to the props of the given Component.
  *
  * @param Component			The Component to add the dispatch function to
  *
