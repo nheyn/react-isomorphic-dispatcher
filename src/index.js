@@ -25,7 +25,7 @@ export function useDispatcher(Component: ReactClass, dispatcher: Dispatcher): Re
       return { dispatcher };
     },
     render(): React.Element {
-      return <Component {...this.props} />;
+      return <Component {...this.props} dispatcher={dispatcher} />;
     }
   });
 

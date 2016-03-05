@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/server';
 import express from 'express';
 import path from 'path';
 import { connectServerDispatcher } from 'express-isomorphic-dispatcher';
+import { useDispatcher } from 'react-isomorphic-dispatcher';
 
 import App from './components';
 import stores, { encodeState, decodeState } from './stores';
@@ -22,7 +23,9 @@ app.use(connectServerDispatcher(stores, { encodeState, decodeState }));
 // Server side react rendering
 app.get('/', (req, res) => {
   const dispatcher = req.dispatcher.getInitialDispatcher();
-  const reactHtml = ReactDOM.renderToString(<App dispatcher={dispatcher} />);
+
+  const AppWithDispatcher = useDispatcher(App, dispatcher);
+  const reactHtml = ReactDOM.renderToString(<AppWithDispatcher />);
 
   res.send(
     ReactDOM.renderToStaticMarkup(
